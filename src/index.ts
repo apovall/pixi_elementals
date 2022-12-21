@@ -1,4 +1,5 @@
-import { Application, Sprite } from 'pixi.js'
+import { Application } from 'pixi.js'
+import { Scene } from './scenes/scene';
 
 const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -9,11 +10,30 @@ const app = new Application({
 	height: 480
 });
 
-const clampy: Sprite = Sprite.from("clampy.png");
+const sceny: Scene = new Scene(app.screen.width, app.screen.height)
 
-clampy.anchor.set(0.5);
+app.stage.addChild(sceny)
 
-clampy.x = app.screen.width / 2;
-clampy.y = app.screen.height / 2;
+// const conty: Container = new Container()
+// conty.x = 0
+// conty.y = 0
+// conty.angle = 45
 
-app.stage.addChild(clampy);
+// const conty2: Container = new Container()
+// conty2.x = 0
+// conty2.y = 0
+// conty2.angle = -45
+
+// const clampy: Sprite = Sprite.from("img/clampy.png");
+// clampy.x = 0
+// clampy.y = 0
+
+// const clampy2: Sprite = Sprite.from('img/clampy.png')
+// clampy2.x = 100
+// clampy2.y = 100
+// clampy2.angle = 15
+
+// app.stage.addChild(conty)
+// app.stage.addChild(conty2)
+// conty.addChild(clampy);
+// conty2.addChild(clampy2);
