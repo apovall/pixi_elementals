@@ -17,8 +17,14 @@ export class MapGenerator{
   }
 
   seedNoiseMap(buildableDensity:number): Array<Array<Boolean>>{
-    // buildableDensity specifies whether an element will be 'buildable' or not
-    // for creating the initial map on which to build
+    /*   
+      args:
+        buildableDensity: specifies whether an element will be 'buildable' or not
+      returns:
+        noiseMap to act as a seed for cellular automaton
+        for creating the initial map on which to build 
+    */
+
     // Create 2D array[height[row]]
     let noiseMap:Array<Array<Boolean>> = []
     // Cycle through the array to create a random noise map
@@ -33,10 +39,21 @@ export class MapGenerator{
         }
       }
     }
-    console.log(noiseMap)
-
     return noiseMap
   }
   // cellular_automata procedural smoothing (seedMap, passes): map
   // growth_check(map): newMap
+
+  applyCellularAutomaton(noiseMap:Array<Array<Boolean>>, count:number): Array<Array<Boolean>>{
+    for(let runCount:number=0; runCount < count; runCount++){
+      let tempGrid = noiseMap
+      // For each height array
+        // For each width (row) element
+          // 
+    }    
+    return noiseMap
+  }
+
+
+  
 }
