@@ -1,5 +1,6 @@
 import { Application } from 'pixi.js'
 import { Scene } from './scenes/scene';
+import { MapGenerator } from './generators/map';
 
 const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -11,6 +12,8 @@ const app = new Application({
 });
 
 const sceny: Scene = new Scene(app.screen.width, app.screen.height)
+const mapGen: MapGenerator = new MapGenerator(10,10)
+mapGen.seedNoiseMap(0.2)
 
 app.stage.addChild(sceny)
 
