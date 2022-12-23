@@ -13,8 +13,17 @@ const app = new Application({
 
 const sceny: Scene = new Scene(app.screen.width, app.screen.height)
 const mapGen: MapGenerator = new MapGenerator(20,20)
+
+// Seed map and run cellular automata algorithm to make initial map
 let noiseMap = mapGen.seedNoiseMap(0.4)
-mapGen.applyCellularAutomaton(noiseMap, 3)
+let gameMap = mapGen.applyCellularAutomaton(noiseMap, 7)
+
+// Grow the map as desired
+for(let i = 0; i<10;i++){
+  gameMap = mapGen.growMapVertically("top", gameMap)
+}
+
+console.log(gameMap)
 
 app.stage.addChild(sceny)
 

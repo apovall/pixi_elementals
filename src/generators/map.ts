@@ -6,7 +6,7 @@
 */
 import _ from 'lodash';
 
-type NoiseMap = Array<Array<String>>
+type FloorMap = Array<Array<String>>
 export class MapGenerator{
 
   private readonly screenWidth: number
@@ -24,7 +24,7 @@ export class MapGenerator{
     this.wallCountThreshold = 4
   }
 
-  seedNoiseMap(buildableDensity:number): NoiseMap{
+  seedNoiseMap(buildableDensity:number): FloorMap{
     /*   
       args:
         buildableDensity: specifies whether an element will be 'buildable' or not. Treat as percentage.
@@ -34,7 +34,7 @@ export class MapGenerator{
     */
 
     // Create 2D array[height[row]]
-    let noiseMap:NoiseMap = []
+    let noiseMap:FloorMap = []
     // Cycle through the array to create a random noise map
     for(let height=0; height<this.screenHeight; height++){
       noiseMap.push([])
@@ -50,7 +50,7 @@ export class MapGenerator{
     return noiseMap
   }
   // cellular_automata procedural smoothing (seedMap, passes): map
-  applyCellularAutomaton(grid:NoiseMap, count:number): NoiseMap{
+  applyCellularAutomaton(grid:FloorMap, count:number): FloorMap{
     /*
       args:
         grid - the incoming noise map
@@ -95,7 +95,10 @@ export class MapGenerator{
     return grid
   }
 
-  checkMapBoundary(heightBounds:number, widthBounds:number):Boolean{
+  checkMapBoundary(heightBounds:number, widthBounds:number):boolean{
+    /* 
+      Check the upper and lower bounds, to see if they've gone out size of the array
+    */
 
     if(heightBounds <= -1 || heightBounds > this.screenHeight-1){
       return false
@@ -105,4 +108,20 @@ export class MapGenerator{
     }
     return true    
   } 
+
+  growMapVertically(side:"top"|"bottom", currentMap:FloorMap):FloorMap{
+    let newMap = _.cloneDeep(currentMap)
+    let newRow:Array<String> = Array(currentMap[0].length).fill(this.wallTile)
+
+    if(side==='top'){
+      newMap.unshift(newRow)
+    }
+    if(side==='bottom'){
+      newMap.push(newRow)
+    }
+
+    return newMap
+    
+  }
 }
+
