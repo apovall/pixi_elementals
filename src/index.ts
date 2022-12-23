@@ -12,9 +12,9 @@ const app = new Application({
 });
 
 const sceny: Scene = new Scene(app.screen.width, app.screen.height)
-const mapGen: MapGenerator = new MapGenerator(10,10)
+const mapGen: MapGenerator = new MapGenerator(20,20)
 let noiseMap = mapGen.seedNoiseMap(0.4)
-mapGen.applyCellularAutomaton(noiseMap, 1)
+mapGen.applyCellularAutomaton(noiseMap, 3)
 
 app.stage.addChild(sceny)
 

@@ -19,8 +19,8 @@ export class MapGenerator{
   constructor(screenWidth:number, screenHeight:number,){
     this.screenHeight = screenHeight
     this.screenWidth = screenWidth
-    this.floorTile = '.'
-    this.wallTile = 'x'
+    this.floorTile = '  '
+    this.wallTile = '[]'
     this.wallCountThreshold = 4
   }
 
@@ -35,8 +35,6 @@ export class MapGenerator{
 
     // Create 2D array[height[row]]
     let noiseMap:NoiseMap = []
-    // const p = [...noiseMap]
-    console.log(noiseMap);
     // Cycle through the array to create a random noise map
     for(let height=0; height<this.screenHeight; height++){
       noiseMap.push([])
@@ -60,6 +58,7 @@ export class MapGenerator{
       returns:
         smoothed map for populating
     */
+    console.log(_.cloneDeep(grid))
     for(let runCount=0; runCount < count; runCount++){
       let neighbourWallCount:number
 
@@ -71,7 +70,6 @@ export class MapGenerator{
             neighbourWallCount = 0
             for(let heightBounds = heightSearch - 1; heightBounds<=heightSearch + 1; heightBounds++ ){              
               for(let widthBounds = widthSearch - 1; widthBounds<=widthSearch + 1; widthBounds++){
-                console.log(`y:${heightSearch}, x: ${widthSearch}`, `y-search: ${heightBounds}, x-search: ${widthBounds}`);
                 if(this.checkMapBoundary(heightBounds, widthBounds)){
                   // Check if search item is not equal to the current cell
                   if(heightBounds != heightSearch || widthBounds != widthSearch){
@@ -86,18 +84,14 @@ export class MapGenerator{
             }           
             if(neighbourWallCount > this.wallCountThreshold){
               grid[heightSearch][widthSearch] = this.wallTile
-              // console.log('assigning floor', this.wallTile, neighbourWallCount);     
             }else{
               grid[heightSearch][widthSearch] = this.floorTile
-              // console.log('assigning floor', this.floorTile, neighbourWallCount);
             }
           }
         }
       }
     }  
-    // console.log('#2');
-    console.log(grid, Date());
-      
+    console.log(grid);
     return grid
   }
 
@@ -110,11 +104,5 @@ export class MapGenerator{
       return false
     }
     return true    
-    
-  }
-
-  // growth_check(map): newMap
-
-
-  
+  } 
 }
