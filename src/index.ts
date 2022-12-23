@@ -13,7 +13,7 @@ const app = new Application({
 
 const sceny: Scene = new Scene(app.screen.width, app.screen.height)
 const mapGen: MapGenerator = new MapGenerator(10,10)
-let noiseMap = mapGen.seedNoiseMap(0.2)
+let noiseMap = mapGen.seedNoiseMap(0.4)
 mapGen.applyCellularAutomaton(noiseMap, 1)
 
 app.stage.addChild(sceny)
