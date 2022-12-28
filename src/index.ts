@@ -12,20 +12,22 @@ const app = new Application({
 });
 
 const sceny: Scene = new Scene(app.screen.width, app.screen.height)
-const mapGen: MapGenerator = new MapGenerator(20,20)
+const mapGen: MapGenerator = new MapGenerator(20,20, app.screen.width, app.screen.height)
 
 // Seed map and run cellular automata algorithm to make initial map
 let noiseMap = mapGen.seedNoiseMap(0.4)
 let gameMap = mapGen.applyCellularAutomaton(noiseMap, 7)
 
 // Grow the map as desired
-for(let i = 0; i<10;i++){
-  gameMap = mapGen.growMapVertically("top", gameMap)
-}
+// for(let i = 0; i<10;i++){
+//   gameMap = mapGen.growMapVertically("top", gameMap)
+// }
 
 console.log(gameMap)
 
 app.stage.addChild(sceny)
+
+mapGen.renderTiles(gameMap, app.stage)
 
 // const conty: Container = new Container()
 // conty.x = 0
