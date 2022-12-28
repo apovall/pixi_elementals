@@ -24,7 +24,7 @@ export class MapGenerator {
     this.screenHeight = screenHeight;
     this.screenWidth = screenWidth;
     this.floorTile = ".";
-    this.wallTile = "[]";
+    this.wallTile = "x";
     this.wallCountThreshold = 4;
   }
 
@@ -161,32 +161,37 @@ export class MapGenerator {
     height: number,
     baseColour: number,
   ) {
-    var topSide = new Graphics();
 
+    let topSide = new Graphics();
     topSide.beginFill(baseColour);
     topSide.drawRect(0, 0, width, width);
     topSide.endFill();
     // x, y, scaleX, scaleY, rotation, skewX, skewY, pivotX, pivotY
-    topSide.setTransform(x, y + width * 0.5, 1, 1, 0, 1.1, -0.5, 0, 0);
+    topSide.setTransform(x*1.75, y + width * 0.5, 1, 1, 0, 1.1, -0.5, 0, 0);
   
-    var leftSide = new Graphics();
-  
-    leftSide.beginFill(baseColour+0x000010);
+    let leftSide = new Graphics();
+    leftSide.beginFill(baseColour+0x700150);
     leftSide.drawRect(0, 0, height, width);
     leftSide.endFill();
-    leftSide.setTransform(x, y + width * 0.5, 1, 1, 0, 1.1, 1.57, 0, 0);
+    leftSide.setTransform(x*1.75, y + width * 0.5, 1, 1, 0, 1.1, 1.57, 0, 0);
   
-    var rightSide = new Graphics();
-  
-    rightSide.beginFill(baseColour-0x000010);
+    let rightSide = new Graphics();
+    rightSide.beginFill(baseColour-0x700150);
     rightSide.drawRect(0, 0, width, height);
     rightSide.endFill();
-    rightSide.setTransform(x, y + width * 0.5, 1, 1, 0, -0.0, -0.5, -(width + (width * 0.015)), -(width - (width * 0.06)));
+    rightSide.setTransform(x*1.75, y + width * 0.5, 1, 1, 0, -0.0, -0.5, -(width + (width * 0.015)), -(width - (width * 0.06)));
   
     return {topSide,leftSide,rightSide}
   }
 
   renderTiles(gameMap:FloorMap, stage:any){
+    /* 
+      Purpose: Render the tiles to the stage
+      Args:
+        gameMap: previously generated array of arrays map, detailing what is a floor & what is a wall
+        stage: The PIXIJS stage object to render onto
+
+    */
 
     type Tile = {
       topSide: DisplayObject,
@@ -194,33 +199,35 @@ export class MapGenerator {
       rightSide: DisplayObject
     }
 
+    console.log(this.screenWidth, gameMap[0].length, this.screenWidth / gameMap[0].length);
+    
     let tileWidth = this.screenWidth / gameMap[0].length
     let tileHeight = this.screenHeight / gameMap.length
-    let baseColour = 0x989865
-    let colourIncrement = 0x000100
+    let baseColour = 0xFF0C0C
     let tileTemp:Tile
     let heightPositionTracker:number = 0
     let widthPositionTracker:number
    
     for(let mapRow = 0; mapRow < gameMap[0].length; mapRow++ ){
-      widthPositionTracker = 0
+      // To allow for alternating of each subsequent row
+      if(mapRow % 2 === 0){
+        widthPositionTracker = 0
+      } else {
+        widthPositionTracker = tileWidth / 2 
+      }
       for(let mapElement = 0; mapElement < gameMap[0].length; mapElement++){   
-        console.log(gameMap[mapRow][mapElement]);
-
         if(gameMap[mapRow][mapElement] === this.floorTile){
-          tileTemp = this.generateTile(widthPositionTracker, heightPositionTracker, tileWidth, 3, baseColour)
+          tileTemp = this.generateTile(widthPositionTracker, heightPositionTracker, tileWidth, 0, baseColour)
         } else {
-          tileTemp = this.generateTile(widthPositionTracker, heightPositionTracker, tileWidth, 3, 0x001240)
+          tileTemp = this.generateTile(widthPositionTracker, heightPositionTracker, tileWidth, 0, 0x352C2C)
         }
         // Render tiles to stage
         stage.addChild(tileTemp['topSide'])
         stage.addChild(tileTemp['leftSide'])
         stage.addChild(tileTemp['rightSide'])
-        // Increment base colour
-        baseColour += colourIncrement
         widthPositionTracker += tileWidth
       }
-      heightPositionTracker += tileHeight // increment
+      heightPositionTracker += tileHeight / 1.25 // increment
     }
   }
 

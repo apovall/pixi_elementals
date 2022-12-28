@@ -12,7 +12,7 @@ export class Scene extends Container{
     this.screenWidth = screenWidth
     this.screenHeight = screenHeight
 
-    this.clampy = Sprite.from('img/clampy.png')
+    this.clampy = Sprite.from('img/black.png')
 
     this.clampy.anchor.set(0.5)
     this.clampy.x = this.screenWidth / 2;
