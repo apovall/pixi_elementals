@@ -167,19 +167,19 @@ export class MapGenerator {
     topSide.drawRect(0, 0, width, width);
     topSide.endFill();
     // x, y, scaleX, scaleY, rotation, skewX, skewY, pivotX, pivotY
-    topSide.setTransform(x*1.75, y + width * 0.5, 1, 1, 0, 1.1, -0.5, 0, 0);
+    topSide.setTransform(x, y + width * 0.5, 1, 1, 0, 1.1, -0.5, 0, 0);
   
     let leftSide = new Graphics();
     leftSide.beginFill(baseColour+0x700150);
     leftSide.drawRect(0, 0, height, width);
     leftSide.endFill();
-    leftSide.setTransform(x*1.75, y + width * 0.5, 1, 1, 0, 1.1, 1.57, 0, 0);
+    leftSide.setTransform(x, y + width * 0.5, 1, 1, 0, 1.1, 1.57, 0, 0);
   
     let rightSide = new Graphics();
     rightSide.beginFill(baseColour-0x700150);
     rightSide.drawRect(0, 0, width, height);
     rightSide.endFill();
-    rightSide.setTransform(x*1.75, y + width * 0.5, 1, 1, 0, -0.0, -0.5, -(width + (width * 0.015)), -(width - (width * 0.06)));
+    rightSide.setTransform(x, y + width * 0.5, 1, 1, 0, -0.0, -0.5, -(width + (width * 0.015)), -(width - (width * 0.06)));
   
     return {topSide,leftSide,rightSide}
   }
@@ -199,8 +199,9 @@ export class MapGenerator {
       rightSide: DisplayObject
     }
 
-    console.log(this.screenWidth, gameMap[0].length, this.screenWidth / gameMap[0].length);
-    
+    console.log(this.screenWidth, gameMap[0].length, gameMap[0].length, this.screenWidth / gameMap[0].length);
+    console.log(this.screenHeight, gameMap.length, gameMap.length, this.screenHeight / gameMap.length);
+
     let tileWidth = this.screenWidth / gameMap[0].length
     let tileHeight = this.screenHeight / gameMap.length
     let baseColour = 0xFF0C0C
@@ -226,6 +227,9 @@ export class MapGenerator {
         stage.addChild(tileTemp['leftSide'])
         stage.addChild(tileTemp['rightSide'])
         widthPositionTracker += tileWidth
+
+        // Increment base colour for readability
+        baseColour += 0x001001
       }
       heightPositionTracker += tileHeight / 1.25 // increment
     }
